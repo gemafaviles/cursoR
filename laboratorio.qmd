@@ -1,0 +1,359 @@
+---
+title: "Introducción al software estadístico R (con Starwars ⚔)"
+subtitle: "Formación ASEPELT. Universidad de Granada"
+author:   
+  - name: Gema Fernández-Avilés 
+    email: gema.faviles@uclm.es
+# date: "`r Sys.Date()`"
+format:
+  html:
+    theme: cerulean
+    highlight-style: ayu-mirage
+    self-contained: true
+    lang: es
+    date-format: long
+    embed-resources: true
+    toc-title: Summary
+    toc: true
+    number-sections: true
+    preview-links: auto
+    code-link: true
+number-sections: true
+execute:
+  echo: true
+  eval: true
+  output: true
+  include: true
+  freeze: auto
+  fig-height: 5
+  warning: false
+  comment: "#>"
+  code-line-numbers: true
+  code-copy: true
+  code-overflow: scroll
+---
+
+
+
+::: {.callout-warning}
+## IMPORTANTE
+
+📕 **Como buen estudiante que eres, sabrás lo importante que es trabajar de forma autónoma y venir a clase con el material leído 😊**. 
+
+🦄 <mark> Este icono indica **AVANZADO E IMPORTANTE**</mark>
+
+:::
+
+
+
+# 🛠 Toolkit del curso: R, RStudio y Quarto
+
+El objetivo de esta unidad es presentar **R**, **RStudio** y **Quarto**, herramientas imprescindibles, que utilizará a lo largo del curso.
+
+
+## Prerrequisitos  
+
+Se asume que has revisado las Unidad 1 "Toolkit del curso: R, RStudio y Quarto" y que tienes instalado y funcionando todo lo propuesto en la Unidad O "Calentando motores".
+
+## Terminología
+
+Ya hemos utilizado algunos términos nuevos, así que vamos a definirlos antes de continuar.
+
+- **R:** Nombre del lenguaje de programación que utilizaremos a lo largo del curso.
+
+- **RStudio:** Entorno de desarrollo integrado para R.
+    En otras palabras, una interfaz conveniente para escribir y ejecutar código R.
+
+- **Quarto:** Sistema de publicación científica y técnica de código abierto basado en Pandoc.
+Crea y publique artículos, informes, presentaciones, sitios web, blogs y libros de alta calidad en HTML, PDF, MS Word, ePub, etc., incluyendo ecuaciones, citas, referencias cruzadas, paneles de figuras, llamadas, diseño avanzado y mucho más.
+
+- **Proyecto:** Un proyecto es un directorio de trabajo (carpeta) que contiene todo lo necesario para trabajar en un análisis de datos (proyecto) específico. Tipos de proyectos: documentos, presentaciones, paquetes, Webs.
+
+- **Paquete:** Un paquete es una colección de funciones, datos y documentación que extiende las capacidades de **R**. Ejemplo: `tydiverse`, `ggplot2`, `dplyr`.
+
+- **Función:** Una función es un bloque de código que realiza una tarea específica. Las funciones toman argumentos, realizan alguna tarea y devuelven un resultado. Ejemplo: `mean()`, `ggplot()`, `filter()`.
+
+- **Chunk:** Un chunk es un bloque de código **R** que se ejecuta en un documento, Quarto en nuestro caso.  
+
+
+## Empezar despacio
+
+A medida que avanza el curso, se anima al estudiante a explorar más allá de lo que dictan las clases.
+Sin embargo, antes de llegar a esa etapa, se necesita adquirir cierta fluidez básica en **R**.
+En primer lugar, comprobemos que el proyecto que hemos creado funciona perfectamente. En el debemos trabajar todo el curso.
+
+`File > New Project > New Directory > Quarto Project > Poner nombre y seleccionar directorio`
+
+Estructura de carpetas dentro del proyecto:
+
+* 📂 `data`
+
+* 📂 `img`
+
+::: {.callout-note}
+## Quarto
+
+Recuerda que en la **Unidad 1** del curso tienes todo lo necesario para realizar la Tarea 1. 
+
+Una guía detallada sobre Quarto en RStudio está disponible en el siguiente enlace: <https://quarto.org/docs/get-started/hello/rstudio.html>
+
+:::
+
+
+# 🚑 La importancia del contexto
+
+::: {.callout-warning title="Tu turno"}
+## Tu turno
+Completa las partes del código señaladas por `_____` o `xxxxx` para obtener el resultado deseado y acuérdate de cambiar `eval: false` por `eval: true` cuando lo hayas cumplimentado para que se ejecute correctamente la chunk.
+:::
+
+## Manos a la obra 
+
+::: {.callout-note}
+## R: nuestro contexto
+
+Nosotros vamos a contar historias con los datos usando el software 
+estadístico **R** por lo que es necesario conocer algunos paquetes y funciones
+para poder manipular y representar los datos.
+:::
+
+## Toma toda la ayuda que te presten: `dplyr :: Cheatsheet`
+
+<https://rstudio.github.io/cheatsheets/translations/spanish/data-transformation_es.pdf>
+
+- Datos **tidy**: ordenados
+- Cada fila es una **observación**
+- Cada columna es una **variable**
+- **pipes**` x |> f(y)` será `f(x,y)`
+
+
+## El conjunto de datos `starwars`
+
+![**Fuente: https://datasciencebox.org**](img/starwars-dataset.png){width="50%"}
+
+
+
+
+## Nuestra filosofía: *learning by doing*
+
+
+**Paso 1** Cargamos los datos `starwars` contenidos en el paquete `dplyr`.
+
+```{r carga-datos-starwars}
+library("dplyr")
+starwars
+```
+
+
+**Paso 2** ¿Cuántas columnas (variables) tiene?
+```{r sw-ncol}
+ncol(starwars)
+```
+
+**Paso 3** ¿Cuántas filas (observaciones) tiene?
+```{r sw-nrow}
+nrow(starwars)
+```
+
+**Paso 4** ¿Cuál es la dimensión del dataset?
+```{r sw-dim}
+dim(starwars)
+```
+
+
+**Paso 5** ¿Cómo extraer una **variable** del `data.frame`? 
+
+Opción 1: formato tidy
+```{r}
+#| eval: false
+nombre_dataframe |> select(nombre_variable)
+```
+
+Opción 2: Con el operador `$`
+
+```{r}
+#| eval: false
+nombre_dataframe$nombre_variable
+```
+
+::: {.callout-important title="Tu turno"}
+Selecciona la variable `name` del conjunto de datos `starwars`.
+:::
+
+```{r}
+# Tu código R aquí
+```
+
+**Paso 6** Para asignar "algo" (la variable `name`) a "algo" (el objeto `sw_name`) se utiliza el operador `<-`.
+
+```{r sw-variable-name}
+sw_name <- starwars$name
+```
+
+
+::: {.callout-note}
+## Operador `<-`
+
+El operador `<-` asigna al "símbolo" que hay a su izquierda el resultado
+de la expresión que hay a su derecha. El operador `=` funciona "igual" que `<-`. 
+:::
+
+
+
+**Paso 7** ¿Como extraer una observación del conjunto de datos?
+
+```{r sw-obsev}
+#| eval: false
+nombre_dataframe|>
+  filter(nombre_variable == "nombre_observacion")
+```
+
+::: {.callout-important title="Tu turno"}
+Selecciona una observación (el bueno), `Luke Skywalker`, filtrando por el nombre en la variable `name` del conjunto `starwars`
+:::
+
+
+```{r sw-obsev-luke-skywalker}
+# Tu código R aquí
+```
+
+
+**Paso 8** Exploración del dataset `starwars` de un **vistazo** (con la función `skim()` de la librería `skimr`):
+
+```{r sw-explora}
+skimr::skim(starwars)
+```
+
+
+
+
+
+
+# 📊 La elección de un gráfico efectivo. ¿Cómo describirías la relación entre la masa (`mass`) y la altura (`height`) de los personajes de Starwars (`starwars`) mediante una visualización? 
+
+
+::: {.callout-warning}
+## ¿Cómo visualizar con la función `ggplot()` del paquete `ggplot2`? Recuerda: 
+
+<mark> **Paso 1** Cargar el paquete `ggplot` con la función `library()`. </mark>
+
+```{r ggplot-library, eval= TRUE}
+library(ggplot2)
+```
+
+
+<mark> **Paso 2** Utilizar la función `ggplot()` y la estética `aesthetics` 👸. </mark>
+
+```{r aes-col, eval= FALSE }
+ggplot(data = nuestro_dataset, 
+       mapping = aes(x = x-variable, 
+                     y = y-variable,
+                     colour = xxxxx,
+                     shape = xxxxx,
+                     size = xxxxx,
+                     alpha = xxxxx)
+       ) +
+  geom_xxxx() +
+   otras opciones
+```
+:::
+
+
+
+**Paso (iii)** Punto de partida
+
+```{r starwars2-10}
+ggplot(data = starwars,
+       mapping = aes(x = height,
+                     y = mass,
+                     colour = gender)) +
+  geom_point() +
+  labs(title = "Mass vs. height of Starwars characters",
+       x = "Height (cm)", 
+       y = "Weight (kg)",
+       colour = "Gender")  
+```
+
+
+
+
+# 😔 El desorden es tu enemigo
+
+Para evitar el desorden, podemos simplificar la visualización eliminando elementos innecesarios y enfocándonos en lo esencial. ¿Son necesarios los `NA` en este caso? ¿El fondo gris aporta información?
+
+**Paso 1** Elimino los datos faltantes, NA (Not Avaliable) con la función `is.na()`, indicando que filtre los que son distintos a NA (con el operador `!`). Guardo el nuevo conjunot de datos en el objeto `starwars_clean`.
+```{r}
+starwars_clean <- starwars |>
+  filter(!is.na(gender))
+```
+
+**Paso 2** Compruebo que no tengo `NAs` con la función `is.na()`.
+```{r}
+summary(is.na(starwars_clean))
+```
+
+**Paso 3** Cambio el tema del fondo del gráfico. Prueba algunos y elige el que consideres más apropiado: `theme_bw()`, `theme_minimal()`, `theme_light()`, `theme_dark()`,...
+
+
+```{r}
+#| eval: false
+ggplot(data = starwars_clean,
+       mapping = aes(x = height, 
+                     y = mass, 
+                     colour = gender)) +
+  geom_point() +
+  labs(title = "Mass vs. Height of Starwars Characters",
+       x = "Height (cm)", y = "Weight (kg)",
+       colour = "Gender") +
+  theme_xxx()
+```
+
+
+
+
+# 🛑 Centra la atención de tu audiencia
+
+Para centrar la atención, podemos analizar ciertos puntos de interés, como los personajes con alturas y pesos extremos.
+
+**Paso 1** Centro la atención en el personaje *outlier* para ver quién es. Para ello filtro (`filter()`) los valores de la variable `mass > 1000` e indico que ponga una etiqueta con la variable `label = name` .
+
+```{r}
+#| eval: false
+ggplot(starwars_clean |> 
+         filter(_____ > ____), 
+       aes(x = ___, 
+           y = ___, 
+           label = ____, 
+           colour = ____)) +
+  geom_point() +
+  geom_text(hjust = 1.1, vjust = 1.1, size = 3) +
+  labs(title = "Characters with Mass Greater than 1000",
+       x = "Height (cm)", 
+       y = "Weight (kg)",
+       colour = "Gender") +
+  theme_bw() 
+```
+
+
+**Paso 2** Determinamos el conjunto de datos objetivo. En este caso, eliminamos el personaje *outlier*, `Jabba Desilijic Tiure`, del conjunto de datos `starwars_clean` y lo guardamos en el objeto `starwars_clean_sin_outlier`.
+```{r}
+starwars_clean_sin_outlier <- starwars_clean |>
+      filter(name != "Jabba Desilijic Tiure")
+```
+
+
+**Paso 3** Representamos el diagrama de dispersión del conjunto de datos `starwars_clean_sin_outlier`.
+
+```{r}
+#| eval: true
+ggplot(starwars_clean_sin_outlier,
+       mapping = aes(x = height, 
+                     y = mass, 
+                     colour = gender)) +
+  geom_point() +
+  labs(title = "Mass vs. Height of Starwars Characters (Excluding Jabba)",
+       x = "Height (cm)", y = "Weight (kg)",
+       colour = "Gender") +
+    theme_bw()
+```
+

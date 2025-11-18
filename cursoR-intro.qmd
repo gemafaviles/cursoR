@@ -1,0 +1,1820 @@
+---
+title: "Introducción al software estadístico R"
+subtitle: "Formación ASEPELT. Universidad de Granada"
+author:   
+  - name:  👩‍🎓 Gema Fernández-Avilés 
+    email: 📧 gema.faviles@uclm.es
+    affiliation: Universidad de Castilla-La Mancha
+#date: "`r Sys.Date()`"
+bibliography: biblio.bib
+engine: knitr  
+format:
+  live-revealjs:
+    theme: theme-dds.scss
+    scrollable: true
+    toc-title: Index
+    toc: false
+    slide-number: c/t
+    fig-align: center
+    show-slide-number: all
+    transition: fade
+    background-transition: fade
+    height: 900
+    width: 1600
+    fontcolor: "#262d36"
+    highlight-style: ayu-mirage
+#    multiplex: true
+    embed-resources: true
+    code-overflow: scroll
+webr:
+  packages:
+    - leaflet
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+    out-width: "50%"
+code-link: true
+execute:
+  code-overflow: scroll
+  echo: true
+  freeze: auto
+  eval: true
+  fig-height: 6
+  warning: false
+  code-fold: true
+  comment: "#>"
+  code-line-numbers: true
+  code-copy: true
+---
+
+
+
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
+
+
+<!-- Poner esto en la terminal para que funcione el quarto-live -->
+<!-- Tools->Terminal->Move Focus to Terminal -->
+<!-- quarto add r-wasm/quarto-live -->
+
+
+
+
+<!-- ##  {#title-slide data-menu-title="Storytelling con R" aria-label="dddd."}  -->
+<!-- <!-- background-image="img/r-giralda2.png" -->  
+
+
+<!-- [**Unidad 0**]{.custom-title-1} [**¡Bienvenidos!**]{.custom-title-2} -->
+<!-- <!-- [Gema Fernández-Avilés Calderón<br> Universidad de Castilla-La Mancha]{.custom-author} --> 
+<!-- [¿Nos presentamos?]{.custom-author} -->
+
+
+
+
+## ¿Dónde estamos? {.smaller}
+
+::: {style="text-align: center;"}
+::: columns
+::: {.column width="50%"}
+::: {.fragment fragment-index="1"}
+### Curso [presencial]{style="color: #026928;"}
+:::
+
+<br>
+
+::: {.fragment fragment-index="2"}
+<!-- ![](img/gema-blanco.jpg){width="15%"} -->
+
+**Orientación:**
+
+Datos, modelización estadística, **R**
+:::
+
+<br>
+
+::: {.fragment fragment-index="3"}
+![](img/icons8-cake-64.png){fig-alt="Cake icon"}
+
+**Filosofía:**
+
+Probemos primero el pastel
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment fragment-index="4"}
+### Sobre [modelización estadística con R]{style="color: #026928;"}
+:::
+
+<br>
+
+::: {.fragment fragment-index="5"}
+![](img/icons8-code-64.png){fig-alt="Code icon"}
+
+**Objetivo 1:**
+
+*Fundamentos teóricos*
+:::
+
+<br>
+
+::: {.fragment fragment-index="6"}
+![](img/icons8-code-R-64.png){fig-alt="Code icon with R logo"}
+
+**Objetivo 2:**
+
+**R** como herramienta de análisis estadístico.
+:::
+:::
+:::
+:::
+
+
+# PARTE I `r emo::ji("target")` {background-color="black"}
+
+
+## ¿Cuál de las siguientes tres descripciones le da una mejor idea del producto final?
+
+::: {layout-ncol="3"}
+![**Ingredientes**](img/receta.png){width="50%"}
+
+![**Libro de recetas**](img/libro-receta.png){width="50%"}
+
+
+![**Tarta**](img/tarta.png){width="50%"}
+:::
+
+
+
+## Empecemos probando el pastel
+
+```{webr geolocal}
+#| fig-height: 6
+#| fig-width: 15
+
+library(leaflet)
+leaflet() |>
+  addTiles() |>
+  addProviderTiles("Esri.WorldImagery") |>
+  addMarkers(lng= -3.5881546145962977, lat= 37.1762441322617, popup="  ")
+```
+
+
+<!-- ## Tu turno. ¿Qué (pastel) te gustaría geolocalizar? -->
+
+<!-- ```{webr tu-turno} -->
+<!-- # -->
+
+<!-- library(leaflet) -->
+<!-- leaflet() |> -->
+<!--   addTiles() |> -->
+<!--   addProviderTiles("Esri.WorldImagery") |> -->
+<!--   addMarkers(lng= ____________, lat= __________, popup="_________") -->
+<!-- ``` -->
+
+
+
+# PARTE II `r emo::ji("target")`: `R` y `RStudio` {background-color="black"}
+
+
+
+- Saber qué es la consola de **R** y la interfaz gráfica **RStudio**.
+
+- Conocer lo imprescindible para trabajar con **R** como lenjuage de programación.
+
+- Obtener información de los datos, **utilizando herramientas y técnicas de programación modernas**: [**Rstudio**.]{style="color:red"}
+
+- Obtener información de los datos, utilizando herramientas y técnicas de programación modernas y de forma **reproducible**: [**Quarto**.]{style="color:red"}
+
+<!-- - Obtener información de los datos, utilizando herramientas y técnicas de programación modernas y de forma **reproducible y colaborativa**, [**Quarto + Rstudio + GitHub**.]{style="color:red"} -->
+
+
+- Recomendar bibliografía: 
+
+    + `r emo::ji("book")` @wickham2016r
+ 
+    + `r emo::ji("book")` @ismay2019statistical 
+ 
+    + `r emo::ji("book")` @fernandez2024fundamentos.
+
+
+# Resultados esperados  `r emo::ji("winner")` {background-color="#017eae"}
+
+![**Consola de R**](img/rdo-esp-02.png){width="20%"} \quad \quad
+![**Interfaz gráfica de Rstudio**](img/04-rdo-esp.png){width="60%"}
+
+
+# Conceptos clave `r emo::ji("document")` {background-color="#AB5484"}
+
+
+## Antes de comenzar: R, Rstsudio y Latex  
+
+1.  **Descargar e instalar R**: [https://cloud.r-project.org/](https://cloud.r-project.org/)
+
+2.  **Descargar e instalar Rstudio:** [https://www.rstudio.com/products/rstudio/download/](https://www.rstudio.com/products/rstudio/download/)
+
+![**Iconos de R (izquierda) y Rstudio (derecha)**](img/r-rstudio-icons.png){width="3%"}
+
+3. **Opcional:** Instalar Latex. Abre R y copia y pega estas dos órdenes en la consola.
+
+```{r latex, eval=FALSE}
+#|  code-line-numbers: false
+install.packages('tinytex')
+tinytex::install_tinytex()
+```
+
+<!-- -  **Tener instalados los paquetes que solicitamos al inicio del curso**. -->
+
+
+## Lo imprescindible y necesario  
+
+::: columns
+::: {.column width="50%"}
+![**Consola de R.**](img/r-console.png){width="100%"}
+:::
+
+::: {.column width="50%"}
+```{webr r-calcula}
+# calculadora
+2 + 2
+```
+
+
+```{webr r-calcula-pi}
+# conoce muchas cosas...
+pi
+```
+
+
+```{webr r-calcula-norm}
+# genera y simula variables
+var <- rnorm(n=1000, mean=0, sd=1)
+length(var)
+head(var, 3)
+```
+:::
+:::
+
+------------------------------------------------------------------------
+
+::: columns
+::: {.column width="50%"}
+```{webr r-programa}
+# programación de funciones
+media_aritm <- function(x) {
+  sum(x) /length(x)
+}
+
+media_aritm(var)
+```
+
+
+```{webr r-fun-mean}
+# pero ya está programada
+mean(var)
+```
+
+>¿Qué más estará programado?
+
+```{webr r-fun-var}
+var(var)
+```
+
+>¡Y mucho más!
+
+```{r r-emo}
+#| echo: false
+emo::ji("happy")
+```
+:::
+
+::: {.column width="50%"}
+```{webr r-histogramas, out.width= "60%"}
+# gráficas: un histograma
+hist(var)
+```
+
+
+```{webr r-histogramas-red, out.width= "60%"}
+# gráficas: un histograma (a color)
+hist(var, col = "red")
+```
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Paquetes
++ **Instalación** de paquetes (sólo se hace una vez).
+
+```{r HistData-instala, eval=FALSE}
+install.packages("HistData")
+```
+
++ **Lectura** de paquetes (se repite cada vez que se usa).
+```{r HistData-lee, eval=FALSE}
+library("HistData")
+```
+
++ Llamada de funciones dentro de un paquete con `::`
+```{r r-operador-paq-func, eval=FALSE}
+dplyr::filter()
+```
+
++ Llamada de datos dentro de un paquete con `::`
+```{r r-operador-paq-datos, eval=FALSE}
+HistData::Nightingale
+```
+
+
++ Lista de paquetes en CRAN por temas 
+[https://cran.r-project.org/web/views/]()
+---
+
+## Muy importante
+
++ **R** distingue MAYÚSCULAS y minúsculas:
+
+```{r r-MAY-min, eval=FALSE}
+Var
+#> Error: object 'Var' not found
+```
+
++ La almohadilla `#` sirve para comentar:
+
+```{r r-comenta}
+2+2  # esto es una suma
+```
+
++ El operador `<-` asigna a la parte izquierda lo que hay en la derecha:
+
+```{r r-operador}
+x <- 2 + 2
+x
+```
+
++ El operador `$` accede a variables dentro de un conjunto de datos:
+
+```{r r-dolar, eval=FALSE}
+Nightingale$Army
+```
+
+
+
+## ¿Dónde encontrar ayuda?
+
++ En el propio programa con la función `help()` y el operador `?`
+  
+    + Ayuda de funciones:
+    
+```{r r-ayuda-func, eval=FALSE}
+help(rnorm)
+?rnorm # Equivalente
+```
+
+    +  Ayuda de conjunto de datos:
+    
+```{r r-ayuda-datos, eval=FALSE}
+help("iris")
+?iris # Equivalente
+```
+
++ Las Cheatsheets:
+[https://posit.co/resources/cheatsheets/]()
+
++ Libros y manuales:
+[https://cran.r-project.org/manuals.html]()
+
++ Google:
+
+    + Stack Overflow
+
+    + Rpubs
+    
+    + GitHub
+
+---
+
+## The R Project for Statistical Computing
+
+![](img/cran-imp.png){}
+
+
+# Rstudio: la clave `r emo::ji("document")` {background-color="#AB5484"}
+
+
+# RStudio {background-color="#017eae"}
+![**Fuente @ismay2019statistical**](img/04-open-rstudio.png){width="60%"}
+
+## ¿Cuál es la diferencia entre R y RStudio?
+![**Fuente: @ismay2019statistical**](img/04-r-coche.png){width="60%"}
+
+::: {.callout-warning}
+**R** es un lenguaje de programación que ejecuta cálculos, mientras que **RStudio** es un entorno de desarrollo integrado (IDE) que proporciona una interfaz y agrega muchas funciones y herramientas útiles.
+:::
+
+
+## Diseño de RStudio 
+![**Diseño de Rstudio**](img/04-rstudio-layout.png){width="60%"}
+
+::: {.callout-warning}
+La posición relativa de cada panel pueden personalizarse
+desde el menú: `Tools \> Global Options \> Pane Layout`
+:::
+
+
+
+## ¿Qué son los paquetes de **R**?
+
+![**Analogía entre R y los paquetes. Fuente: @ismay2019statistical**](img/04-phone.png){width="60%"}
+
+::: {.callout-warning}
+**R** es como un teléfono móvil nuevo: si bien tiene una cierta cantidad de funciones cuando lo usamos por primera vez, no tiene todo. 
+
+Los **paquetes** son como las aplicaciones que podemos descargar en el teléfono desde la App Store de Apple o Google Play de Android.
+:::
+
+
+## Paquetes: instalación y carga
+
+
+::: columns
+::: {.column width="50%"}
+![**Instalación de paquetes**](img/04-install-pcks.png){width="100%"}
+:::
+
+::: {.column width="50%"}
+1. Click `Packages`.
+
+2. Click `Install`.
+
+3. Escribe el nombre del paquete “Packages”. Por ejemplo, `ggplot2`.
+
+4. Click `Install`.
+
+
+>[**Lectura de paquetes**]{style="color:red"}
+
+```{r lee-ggplot2, eval=FALSE}
+library(ggplot2)
+```
+::: {.callout-warning}
+La instalación de paquetes sólo se hace una.
+La lectura se realiza cada vez que se utilizan los paquetes.
+:::
+
+:::
+
+:::
+
+
+
+
+
+# Proyectos en RStudio `r emo::ji("box")` {background-color="#017eae"}
+
+## Proyectos en RStudio
+
+Un proyecto es un directorio de trabajo (carpeta) que contiene todo lo necesario para trabajar en un análisis de datos (proyecto) específico. Tipos de proyectos: documentos, presentaciones, paquetes, Webs,...
+
+>[**Creación de un proyecto Quarto**]{style="color:red"}
+
+`File > New proyect >`
+
+![**Creación de Quarto Project**](img/04-crea-proyect.png){width="80%"}
+
+## Creación de proyectos Quarto
+
+![**Creación de Proyectos Quarto**](img/04-abre-proy.png){width="60%"}
+
+## Estructura básica de poyectos
+
+Aunque podemos tener todos los archivos en la carpeta del proyecto (para proyectos pequeños) lo ideal es crear siempre una estructura. 
+
+::: columns
+::: {.column width="50%"}
+
++ `r emo::ji("folder")` `data`: contiene los archivos de datos.
+
++ `r emo::ji("folder")` `img`: contiene las imágenes.
+
++ `r emo::ji("folder")` `exer`: ejercicios, practicas.
+
+Más personal:
+
++ `r emo::ji("folder")` `old`: documentos que ya no necesito, pero por si acaso...
+
+:::
+
+::: {.column width="50%"}
+
+![**Estructura de proyecto**](img/04-proy-folders.png){width="60%"}
+:::
+:::
+
+## Compilación de documentos
+
+![**Compilación de documentos**](img/03-render-proy.png){width="60%"}
+
+
+# Informes reproducibles `r emo::ji("thinking")` {.smaller background-color="#017eae"} 
+
+## ¿Por qué informes reproducibles?
+
+![Growth in a Time of Debt (2010)](img/04-no-reproduc.png)
+
+
+Un famoso artículo académico de 2010, en el que se basan los grandes políticos para reforzar los argumentos a favor de los recortes de austeridad, contenía errores significativos:
+
++ De código  (excluyeron a cinco países con una importante deuda y alto crecimiento).
+
++ De manipulación de los datos (excluyeron del cómputo algunos países y algunos años).
+
++ De cálculo estadístico (errores en las ponderaciones).
+
+::: {.callout-warning}
+Estos errores se debieron al mal uso de una hoja de cálculo de Excel.
+:::
+
+
+
+
+# ¿Qué es Quarto? `r emo::ji("thinking")` {background-color="#017eae"}
+
+## Quarto es un lenguaje que tiene como base [**Markdown**]{style="color:red"} 
+<!-- <span style="color:red;">love</span>  -->
+(otro lenguaje). Entonces, empecemos viendo primero Markdown... `r emo::ji("thinking")`
+
+>Your data tells a story. Tell it with R Markdown. Turn your analyses into high quality documents, reports, presentations and dashboards.
+https://rmarkdown.rstudio.com/
+
+
+::: columns
+::: {.column width="50%"}
+![**R Markdown**. Artwork by Allison Horst](img/04-markdown.png){width="100%"}
+:::
+
+::: {.column width="50%"}
+::: {.callout-warning}
+Sintaxis Markdonw
+:::
+
+>Help > Markdown Quick Reference
+
+>https://rmarkdown.rstudio.com/
+
+>Cheatseets
+:::
+
+:::
+
+
+# Entonces, ¿qué es Quarto? {.smaller}
+
+Un nuevo marco de escritura para ciencia de datos, que combina código, 
+resultados y comentarios. Se nutre de la experiencia de `RMarkdown`.
+
+Los documentos de Quarto (\*.qmd) son completamente reproducibles y soportan docenas
+de formatos de salida tales como PDFs, archivos de Word, presentaciones, artículos científicos,... 
+
+::: columns
+::: {.column width="50%"}
+**¿Qué incluye?**
+
+-   Presentación de `código` y ecuaciones `LaTeX`
+-   Inclusión de `resultados` en la salida de las diapositivas
+-   Fondos de imagen, video e iframe
+-   Transiciones y animaciones elegantes
+-   Impresión a `PDF`, `HTML`
+
+Más información: <https://quarto.org>.
+:::
+
+::: {.column width="50%"}
+![](img/quarto.png)
+:::
+:::
+
+##  Quarto (fuente)
+
+
+![Estructura del documento](img/04-quarto-docs.png)
+
+
+##  Quarto (resultado)
+![Render](img/04-quarto-docs-rdo.png)
+
+## YAML en Quarto
+
+
+::: columns
+::: {.column width="50%"}
+![](img/04-yaml-quarto.png)
+:::
+
+::: {.column width="50%"}
+``` yaml
+title: "Mi informe en Quarto"
+subtitle: "Va a ser genial"
+author: "Gema Fernández-Avilés"
+date: "`r Sys.Date()`"
+format: 
+  html:
+   embed-resources: true
+   theme: cerulean
+   toc-title: Summary
+   toc: true
+   number-sections: true
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+```
+:::
+:::
+
+
+
+
+
+
+## Texto en Quarto
+
+Sintaxis Markdown
+
+
+```{r sintaxis-texto, eval=FALSE}
+#| code-line-numbers: false
+
+Cabeceros
+----------
+# Títutlo
+## Subtítulo
+
+Listas
+--------
++ Desayuno
++ Comida
++ Cena
+```
+
+## Imágenes en Quarto
+
+``` tex
+![Marco alemán](img/marco.jpg)
+```
+
+![Marco alemán](img/marco.jpg)
+
+
+## Ecuaciones con LaTeX
+
+
+::: columns
+::: {.column width="40%"}
+``` tex
+\begin{gather*}
+a_1=b_1+c_1\\
+a_2=b_2+c_2-d_2+e_2
+\end{gather*}
+
+\begin{align}
+a_{11}& =b_{11}&
+  a_{12}& =b_{12}\\
+a_{21}& =b_{21}&
+  a_{22}& =b_{22}+c_{22}
+\end{align}
+```
+:::
+
+::: {.column width="60%"}
+```{=tex}
+\begin{gather*}
+a_1=b_1+c_1\\
+a_2=b_2+c_2-d_2+e_2
+\end{gather*}
+```
+```{=tex}
+\begin{align}
+a_{11}& =b_{11}&
+  a_{12}& =b_{12}\\
+a_{21}& =b_{21}&
+  a_{22}& =b_{22}+c_{22}
+\end{align}
+```
+:::
+:::
+
+::: footer
+Learn more: [LaTeX Equations](https://quarto.org/docs/authoring/markdown-basics.html#equations)
+:::
+
+## Opciones de chunks  {.smaller}
+
+``` {.r code-line-numbers="1|2|3|4|5|6|7|8|9|11|12|13"} 
+#| echo: true
+#| eval: false
+#| fig-width: 10
+#| fig-height: 4.5
+#| code-fold: true
+#| code-summary: código plot interactivo
+#| code-overflow: scroll
+#| code-line-numbers: true
+#| code-copy: true
+
+library(gapminder)
+library(ggplot2)
+library(plotly)
+
+g<-ggplot(data=gapminder,
+       aes(x=gdpPercap, y=lifeExp)) +
+       geom_point(aes(color=continent)) +
+       geom_smooth(method = "loess")
+
+ggplotly(g) 
+```
+
+
+
+
+
+
+## Código ejecutable {.smaller}
+
+La @fig-gapminder representa....
+
+```{r opciones-codigo2}
+#| echo: true
+#| eval: true
+#| label: fig-gapminder
+#| fig-cap: Esperanza de vida y PIBpc.
+#| warning: false
+#| fig-width: 10
+#| fig-height: 4.5
+#| code-fold: true
+#| code-summary: código plot interactivo
+#| code-overflow: scroll
+#| code-line-numbers: true
+#| code-copy: true
+
+library(gapminder)
+library(ggplot2)
+library(plotly)
+
+g<-ggplot(data=gapminder,
+       aes(x=gdpPercap, y=lifeExp)) +
+       geom_point(aes(color=continent)) +
+       geom_smooth(method = "loess")
+
+ggplotly(g) 
+```
+
+
+
+# Styler: estilo de código  `r emo::ji("input")` {background-color="#017eae"}
+
+## ¿Qué interior te gusta más?
+
+::: columns
+::: {.column width="50%"}
+
+![Imagen tomada de: https://www.hola.com/hola-living/20200213160462/isabel-preysler-decoracion-terraza-invierno/](img/04-casa-styler.png)
+:::
+
+::: {.column width="50%"} 
+
+![Imagen tomada de: https://es.123rf.com/imagenes-de-archivo/casa_desordenada.html](img/04-casa-no-styler.png)
+:::
+
+:::
+
+## ¿Qué interior te gusta más?
+
+::: columns
+::: {.column width="50%"}
+
+![Imagen adaptada de: https://www.hola.com/hola-living/20200213160462/isabel-preysler-decoracion-terraza-invierno/](img/04-casa-styler-text.png)
+:::
+
+
+::: {.column width="50%"}
+![Imagen adaptada de: https://es.123rf.com/imagenes-de-archivo/casa_desordenada.html](img/04-casa-no-styler-text.png)
+:::
+
+:::
+
+## La guía de estilo tidyverse
+
+A. `MeencantalaciudaddeSevilla`
+
+B. `Me encanta la cuidad de Sevilla`
+
+La guía completa se encuentra en: [The tidyverse style guide](https://style.tidyverse.org/)
+
+
+## Nombre de ficheros
+
+```{r estilo-cod-ficheros, eval=FALSE}
+#| code-line-numbers: false
+#| 
+# Good
+fit_models.R
+utility_functions.R
+00_download.R
+01_explore.R
+
+# Bad
+fit models.R           # espacios
+fitmodels.r            # todo junto y r   
+utility.Functions.R    # otros estilos anteriores
+```
+
+
+## Sintaxis
+
+>`snake_case`: para nombres de objetos y funciones debe usarse minúscula, números y _ guión bajo para separar palabras dentro del nombre.
+
+
+```{r estilo-cod-objetos, eval=FALSE}
+#| code-line-numbers: false
+
+# Good
+day_one
+day_1
+
+# Bad
+DayOne
+dayone
+```
+
+
+
+<!-- ## Trabajando con `ggplot()` y `pippes` -->
+
+<!-- ```{r estilo-cod-pipe, eval=FALSE} -->
+<!-- # Good -->
+<!-- iris %>% -->
+<!--   filter(Species == "setosa") %>% -->
+<!--   ggplot(aes(x = Sepal.Width, y = Sepal.Length)) + -->
+<!--   geom_point() -->
+
+<!-- # Bad -->
+<!-- iris %>% -->
+<!--   filter(Species == "setosa") %>% ggplot(aes(x = Sepal.Width, y = Sepal.Length)) + geom_point() -->
+<!-- ``` -->
+
+<!-- ## Avanzado -->
+
+<!-- ```{r estilo-cod-paquetes, eval=FALSE} -->
+<!-- install.packages("styler") # restyle selected text, files, or entire project -->
+<!-- install.packages("lintr")  # comprobar que está segun la guia de estilo -->
+<!-- ``` -->
+
+
+
+<!-- # Github y Rstudio: control de versiones `r emo::ji("family")` {background-color="#017eae"} -->
+
+<!-- Esta sección es avanzada para este curso. Se plantea la idea de forma intuitiva y se facilitan referencias para profundizar en el tema. -->
+
+<!-- ## Git y GitHub -->
+
+
+<!-- ::: columns -->
+<!-- ::: {.column width="50%"} -->
+<!-- ![Imagen tomada de: https://git-scm.com/downloads/logos](img/04-git-logo.png){width="50%"} -->
+
+<!-- - Git es un sistema de control de versiones, como las funciones de "Control de cambios" de Microsoft Word. -->
+
+<!-- - Es el más popular. -->
+<!-- ::: -->
+
+<!-- ::: {.column width="50%"} -->
+<!-- ![Imagen tomada de: https://github.com/logos](img/04-github-logo.png){width="50%"} -->
+
+<!-- - GitHub el "alojamiento" de los proyectos Git de internet -- como DropBox mucho mejor. -->
+<!-- ::: -->
+<!-- ::: -->
+
+<!-- ## Versiones... -->
+<!-- ![Imagen tomada de: https://datasciencebox.org](img/04-lego-steps.png) -->
+
+
+<!-- ## Versiones... -->
+
+<!-- ### con mensajer legibles para los humanos -->
+<!-- ![Imagen tomada de: https://datasciencebox.org](img/04-lego-steps-commit-messages.png) -->
+
+
+<!-- ## ¿Por qué necesitamos un control de versiones? -->
+<!-- ![Imagen tomada de: https://datasciencebox.org](img/04-phd_comics_vc.png) -->
+
+
+<!-- ## ¿Cómo trabajar con Git y GitHub en Rstudio? -->
+<!-- ![Imagen tomada de: https://datasciencebox.org](img/04-whole-game-01.png) -->
+
+
+<!-- ## ¿Cómo trabajar con Git y GitHub en Rstudio? -->
+
+<!-- ![Imagen tomada de: https://datasciencebox.org](img/04-whole-game-02.png) -->
+
+
+<!-- ## ¿Cómo trabajar con Git y GitHub en Rstudio? -->
+
+<!-- ![Imagen tomada de: https://datasciencebox.org](img/04-whole-game-03.png) -->
+
+<!-- ## ¿Cómo trabajar con Git y GitHub en Rstudio? -->
+
+<!-- ![Imagen tomada de: https://datasciencebox.org](img/04-whole-game-04.png) -->
+
+
+<!-- ## Recursos para aprender GitHub en Rstudio -->
+
+
+<!-- + [Happy Git and GitHub for the useR](https://happygitwithr.com/). Libro imprescindible. -->
+
+
+<!-- + [Cómo usar Git/GitHub con R](http://destio.us.es/calvo/asignaturas/ge_esco/tutorialusargitgithubrstudio/UsarGitGithubconRStudio.html). Muy didáctico, sencillo y en español. -->
+
+
+# PARTE III 🌍 `tidyverse` {background-color="black"}
+
+- Conocer qué es el `tidyverse` y los datos `tidy`
+    
+- Descubrir las acciones (`verbos`) de \{dplyr\}.
+
+- Aprender a visualizar datos con \{`ggplot2`\}.
+
+
+# Tidy data `r emo::ji("document")` {background-color="#017eae"}
+
+## ¿Qué significa tidy? ¿Cuál de estas dos imágenes es más tidy?
+
+![**Imagen tomada de: iStock**](img/08-tidy-ropa.png){width="60%"}
+
+## ¡Acertaste!
+![**Imagen adaptada de: iStock**](img/08-tidy-ropa-text.png){width="60%"}
+
+
+
+## Características de los datos tidy
+
++ Cada variable forma una columna.
+
++ Cada observación forma una fila.
+
++ Cada tipo de unidad de observación forma una tabla.
+
+![**Fuente: @wickham2016r**](img/08-tidy-data-tabla.png){width="15%"}
+
+
+
+
+# The grammar of data wrangling: \{tidyverse\} `r emo::ji("construction")` {background-color="#017eae"} 
+
+::: columns
+::: {.column width="50%"}
+![**Fuente: Allison Horst**](img/08-tidyverse.png){width="80%"} 
+:::
+
+::: {.column width="50%"}
+![**Fuente: https://r4ds.had.co.nz/**](img/08-r4ds.png){width="50%"}   
+:::
+:::
+
+## [**Tidyverse**:]{style="color:red"} {.smaller}
+
+Es una colección de paquetes coehrentes, que
+    comparten gramática, filosofía y estructura y están diseñados para
+    realizar juntos como una canalización completa (*pipeline*). Todos
+    se basan en la idea de *tidy data* propuesta por Hadley Wickham
+    @hadley2014tidy y pueden instalarse con un único comando en R:
+
+```{r eval=FALSE}
+install.packages("tidyverse")
+```
+
+    
+
+Los paquetes que forman parte del tidyverse son:
+
+-    **\{readr\}**, para importación de datos.
+
+-   **\{dplyr\}**, para manipulación de datos.
+
+-   **\{tidyr\}**, para ordenar datos.
+
+-   **\{ggplot2\}**, para visualización de datos.
+
+-   **\{purrr\}**, para programación.
+
+-   **\{tibble\}**, para `tibbles`, un nuevo formato de `data frames`.
+
+-   **\{stringr\}**, para caracteres.
+
+-   **\{forcats\}**, para factores.
+
+
+
+# El operador pipe `r emo::ji("document")` {background-color="#017eae"}
+
+## ¿Qué es un pipe?
+
+En programación, un pipe (tubo) es una técnica que permite pasar información de un 
+proceso a otro.
+
+![Fuente: https://static-bcrf.biochem.wisc.edu/courses/Tabular-data-analysis-with-R-and-Tidyverse/book/8-tidyverseanotherRuniverse.html](img/08-pipe-tuberia.png){width="30%"} 
+
+## ¿Cómo funciona el pipe de forma intuitiva?
+
+
+Imagina la siguiente secuencia:
+
+```{r pipe-car1}
+#| eval: false
+(i) find keys, (ii) unlock car, (iii) start car, (iv) drive to work y (v) park.
+```
+
+
+Expresado como un cojunto de funciones anidadas y pseudo-código **R** podría ser así:
+
+```{r pipe-car2}
+#| eval: false
+park(drive(start_car(unlock(find("keys"))), to = "work"))
+```
+
+
+Utilizando pipes la lectura se hace más fácil y natural:
+
+```{r pipe-car3}
+#| eval: false
+find("keys") |>
+  unlock_car() |>
+  start_car() |>
+  drive(to = "work") |>
+  park()
+```
+
+
+
+# Transformación de datos con `dplyr` {background-color="#017eae"}
+
+::: columns
+
+::: {.column width="20%"}
+
+![**Fuente: https://dplyr.tidyverse.org/**](img/08-dplyr-logo.png)
+:::
+
+::: {.column width="80%"}
+
+```{r dplyr1, eval=FALSE}
+#| code-line-numbers: false
+filas:
+  filter() filtra casos en función de sus valores.
+  arrange() cambia el orden de las filas.
+
+columnas:
+  select() elige variables en función de sus nombres.
+
+transformación:
+  summarise() reduce múltiples valores a un solo resumen.
+  mutate() agrega nuevas variables que son funciones de variables existentes.
+
+agrupación:
+  group_by() agrupa datos por una o más variables.
+```
+
+:::
+
+:::
+
+
+
+## Importante: Cheatsheets en **R**  
+
+>[[**Cheatsheets**]{style="color:blue"}](https://posit.co/resources/cheatsheets/)
+
+
+![**Fuente: https://posit.co/resources/cheatsheets/**](img/u2-context-cheatsheet.png)
+
+
+## Manos a la obra {background-color="black"}
+
+::: {.callout-note}
+Nosotros vamos a contar historias con los datos usando el software 
+estadístico **R** por lo que es necesario conocer algunos paquetes y funciones
+para poder manipular y represenar los datos.
+:::
+
+¿Qué hay en un conjunto de datos?  
+
+![**Mapa del universo observable con los objetos astronómicos notables conocidos en la actualidad. Fuente: Wikipedia.**](img/05-universo.png){width="50%"}
+
+## El conjunto de datos `starwars`
+
+![**Fuente: https://datasciencebox.org**](img/starwars-dataset.png){width="50%"}
+
+## Terminología (común)
+
+- Cada fila es una **observación**
+- Cada columna es una **variable**
+
+```{r carga-datos-starwars}
+library("dplyr")
+starwars
+```
+
+
+
+
+## Tablas de datos (data.frames)
+
++ Cada columna: variable (cuantitativa o cualitativa).
+
++ Cada fila:  elemento  observado las características que representan las variables. 
+
++ La forma más común: `data.frame`. 
+      
++ Para extraer una variable del `data.frame` se utiliza el operador `$`: `nombre_dataframe$nombre_variable`.
+
++ Cada columna del `data.frame` es un `vector` (otra estructura de datos). 
+
+
+
+## Algunas cuestiones básicas
+
+¿Cuántas columnas (variables) tiene?
+```{r sw-ncol}
+ncol(starwars)
+```
+
+¿Cuántas filas (observaciones) tiene?
+```{r sw-nrow}
+nrow(starwars)
+```
+
+¿Cuál es la dimensión del dataset?
+```{r sw-dim}
+dim(starwars)
+```
+
+
+## Tablas de datos (`data.frames`)
+
+```{r sw-head}
+# la función head() muestra los primeros valores
+head(starwars, 3)
+```
+
+
+```{r sw-variable-name}
+sw_name<-starwars$name
+```
+
+
+::: {.callout-note}
+El operador `<-` asigna al "símbolo" que hay a su izquierda el resultado
+de la expresión que hay a su derecha. El operador `=` funciona igual que `<-`. 
+:::
+
+## Una observación (el bueno): **Luke Skywalker**
+
+![**Fuente: https://datasciencebox.org**](img/05-luke-skywalker.png){width="50%"}
+
+
+
+## Exploración del dataset `starwars`  
+
+De un **vistazo** (con la función `glimpse()`):
+
+```{r sw-explora}
+skimr::skim(starwars)
+```
+
+
+
+## ¿Qué conozco sobre Luke Skywalker (el bueno)?
+```{r sw-obsev-luke-skywalker}
+# tidy
+starwars|>
+  filter(name=="Luke Skywalker")
+```
+
+
+
+
+
+
+# PARTE IV. 📊 Representaciones con \{`ggplot2`\} {background-color="black"}
+
+
+
+
+
+# Resultados esperados  `r emo::ji("winner")` {background-color="#017eae"}
+
+![**Hexbin plot (starwars data)**](img/07-rdo-esp.png){width="60%"}
+
+
+# Conceptos clave `r emo::ji("document")` {background-color="#AB5484"}
+
+
+# ¿Por qué es importante la visualización? `r emo::ji("picture")` {background-color="#017eae"}
+
+>[**"The simple graph has brought more information to the data analyst's mind than any other device." --- John Tukey**]{style="color:white"} 
+
+
+
+## DatasauRus  {.smaller}
+
+```{r datasauRus-descriptivos}
+library(datasauRus)
+library(dplyr)
+
+datasaurus_dozen |> 
+    group_by(dataset) |> 
+    summarize(
+      mean_x    = mean(x),
+      mean_y    = mean(y),
+      std_dev_x = sd(x),
+      std_dev_y = sd(y),
+      corr_x_y  = cor(x, y)
+    )
+```
+
+## DatasauRus  
+
+```{r datasauRus-visualiza, echo=FALSE}
+#| fig-align: center
+library(ggplot2)
+  ggplot(datasaurus_dozen, aes(x = x, y = y, colour = dataset))+
+    geom_point()+
+    theme_void()+
+    theme(legend.position = "none")+
+    facet_wrap(~dataset, ncol = 3)
+```
+
+
+::: {.callout-note}
+Otros ejemplos clásicos son el cuarteto de Anscombe y la paradoja de Simpson.
+:::
+
+
+
+## ¿Cómo describirías la relación entre la masa y la altura de los personajes de Starwars? 
+
+<!-- ![**Imagen tomada de https://datasciencebox.org**](img/07-sw-plot.png){width="60%"} -->
+
+```{r}
+library(tidyverse)
+ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
+  geom_point() 
+```
+
+
+
+
+<!-- ## ¿Existe algún outlier? {.smaller} -->
+
+<!-- ::: columns -->
+
+<!-- ::: {.column width="50%"} -->
+
+<!-- ```{r sw-outlier-jabba, fig.show = "hide", warning = FALSE} -->
+<!-- library(ggplot2) -->
+<!-- library(dplyr) -->
+
+<!-- ggplot(data = starwars, -->
+<!--        mapping = aes(x = height, y = mass)) + -->
+<!--   geom_point() -->
+<!-- ``` -->
+
+<!-- ::: -->
+
+<!-- ::: {.column width="50%"} -->
+
+<!-- ```{r ref.label = "sw-outlier-jabba", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8} -->
+<!-- ``` -->
+<!-- ::: -->
+<!-- ::: -->
+
+  
+## ¿Quién es el *outlier*? Jabba Desilijic Tiure
+
+![**Imagen adaptada de https://datasciencebox.org**](img/07-jabba.png){width="60%"}
+
+
+
+
+# "The grammar of graphics": \{`ggplot`\} {background-color="black"}
+
+![**Imagen adaptada de https://datasciencebox.org**](img/07-ggplot2-book.png){width="60%"}
+
++ \{`ggplot2`\} es un paquete `tidyverse` para visualización de datos.
+
++ **gg** en `ggplot2` hace referencia a *Grammar of Graphics.*
+
++ Inspirado en el libro *Grammar of Graphics*, @wilkinson2012grammar.
+
+
+## ¿Cómo visualizar con la función `ggplot()` de \{`ggplot`\}?
+
+```{r ggplot-library, eval=FALSE}
+library(ggplot2)
+```
+
+```{r ggplot-teoria, eval=FALSE}
+ggplot(data = [dataset], 
+       mapping = aes(x = [x-variable], y = [y-variable])) +
+   geom_xxx() +
+   otras opciones
+```
+
+
+## Mi primer plot con `ggplot()` 
+
+
+```{r ggplot-pract0, eval=FALSE}
+#| warning: false
+library(ggplot2)
+library(dplyr)  #cargamos los datos 'starwars'
+# se crea un nuevo data.frame sin el outlier (que se elimina)
+starwars2 <- filter(starwars, name != "Jabba Desilijic Tiure")
+```
+
+
+```{r ggplot-pract, eval=FALSE}
+ggplot(data = starwars2, mapping = aes(x = height, y = mass)) +
+  geom_point() +
+  labs(title = "Mass vs. height of Starwars characters",
+       x = "Height (cm)", y = "Weight (kg)")
+```
+
+>Ayuda con ggplot2: [ggplot2.tidyverse.org](ggplot2.tidyverse.org) y Cheatsheets.
+
+
+
+::: columns
+::: {.column width="50%"}
+
+![**Fuente: Wikipedia**](img/07-sw-logo.png){width="100%"}
+:::
+
+::: {.column width="50%"}
+
+```{r ggplot-pract2, echo=FALSE}
+#| warning: false
+library(dplyr)  #cargamos los datos 'starwars'
+starwars2 <- filter(starwars, name != "Jabba Desilijic Tiure")
+
+library(ggplot2)
+ggplot(data = starwars2, mapping = aes(x = height, y = mass)) +
+  geom_point() +
+  labs(title = "Mass vs. height of Starwars characters",
+       x = "Height (cm)", y = "Weight (kg)")
+```
+:::
+:::
+
+
+
+# Paso a paso  `r emo::ji("feet")` {background-color="#017eae"}
+
+---
+
+## Paso a paso: {.smaller}
+
+**Empezamos con el data.frame `starwars2`**
+
+::: columns
+::: {.column width="50%"}
+
+```{r code-st0, fig.show = "hide", warning = FALSE}
+#| code-line-numbers: "1"
+ggplot(data = starwars2) 
+```
+:::
+
+
+::: {.column width="50%"}
+
+```{r ref.label = "code-st0", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8}
+
+```
+
+:::
+:::
+
+
+## Paso a paso: {.smaller}
+
+Empezamos con el data.frame `starwars2`  
+**ponemos `height` en el eje-x**
+
+
+::: columns 
+::: {.column width="50%"}
+```{r starwars2-1, fig.show = "hide", warning = FALSE}
+#| code-line-numbers: "2"
+ggplot(data = starwars2,
+       mapping = aes(x = height))
+```
+:::
+
+::: {.column width="50%"}
+```{r ref.label = "starwars2-1", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8}
+```
+:::
+:::
+
+## Paso a paso: {.smaller}
+
+Empezamos con el data.frame `starwars2`  
+ponemos `height` en el eje-x  
+**ponemos `mass` en el eje-y**  
+
+
+::: columns 
+::: {.column width="50%"}
+```{r starwars2-2, fig.show = "hide", warning = FALSE}
+#| code-line-numbers: "3"
+ggplot(data = starwars2,
+       mapping = aes(x = height,
+                     y = mass)) 
+```
+:::
+::: {.column width="50%"}
+```{r ref.label = "starwars2-2", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8}
+```
+:::
+:::
+
+---
+
+
+## Paso a paso:  {.smaller}
+
+Empezamos con el data.frame `starwars2`  
+ponemos `height` en el eje-x  
+ponemos `mass` en el eje-y  
+**representamos cada observación con un punto**  
+
+
+::: columns 
+::: {.column width="50%"}
+```{r starwars2-3, fig.show = "hide", warning = FALSE}
+#| code-line-numbers: "4"
+ggplot(data = starwars2,
+       mapping = aes(x = height,
+                     y = mass)) + 
+  geom_point() 
+```
+:::
+
+::: {.column width="50%"}
+```{r ref.label = "starwars2-3", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8}
+```
+:::
+:::
+
+---
+
+## Paso a paso: {.smaller}
+
+Empezamos con el data.frame `starwars2`  
+ponemos `height` en el eje-x  
+ponemos `mass` en el eje-y  
+representamos cada observación con un punto  
+**y la variable `gender` para el color de cada punto**  
+
+
+::: columns 
+::: {.column width="50%"}
+```{r starwars2-4, fig.show = "hide", warning = FALSE}
+#| code-line-numbers: "4"
+ggplot(data = starwars2,
+       mapping = aes(x = height,
+                     y = mass,
+                     colour = gender)) + 
+  geom_point()
+```
+:::
+
+::: {.column width="50%"}
+```{r ref.label = "starwars2-4", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8}
+```
+:::
+:::
+
+---
+
+## Paso a paso: {.smaller}
+
+Empezamos con el data.frame `starwars2`  
+ponemos `height` en el eje-x  
+ponemos `mass` en el eje-y  
+representamos cada observación con un punto  
+y la variable `gender` para el color de cada punto.  
+**Añadimos título al gráfico: "Mass vs. height of Starwars characters"**  
+
+
+::: columns 
+::: {.column width="50%"}
+```{r starwars2-5, fig.show = "hide", warning = FALSE}
+#| code-line-numbers: "6"
+ggplot(data = starwars2,
+       mapping = aes(x = height,
+                     y = mass,
+                     colour =gender)) +
+  geom_point() +
+  labs(title = "Mass vs. height of Starwars characters")
+```
+:::
+::: {.column width="50%"}
+```{r ref.label = "starwars2-5", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8}
+```
+:::
+:::
+
+---
+
+## Paso a paso: {.smaller}
+
+Empezamos con el data.frame `starwars2`  
+ponemos `height` en el eje-x  
+ponemos `mass` en el eje-y  
+representamos cada observación con un punto  
+y la variable `gender` para el color de cada punto.  
+Añadimos título al gráfico: "Mass vs. height of Starwars characters"  
+**añadimos el subtítulo "by gender"**  
+
+
+::: columns 
+::: {.column width="50%"}
+```{r starwars2-6, fig.show = "hide", warning = FALSE}
+#| code-line-numbers: "6"
+ggplot(data = starwars2,
+       mapping = aes(x = height,
+                     y = mass,
+                     colour = gender)) +
+  geom_point() +
+  labs(title = "Mass vs. height of Starwars characters",
+       subtitle = "by gender")  
+```
+:::
+::: {.column width="50%"}
+```{r ref.label = "starwars2-6", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8}
+```
+:::
+:::
+
+---
+
+## Paso a paso:  {.smaller}
+
+
+Empezamos con el data.frame `starwars2`  
+ponemos `height` en el eje-x  
+ponemos `mass` en el eje-y  
+representamos cada observación con un punto  
+y la variable `gender` para el color de cada punto.  
+Añadimos título al gráfico: "Mass vs. height of Starwars characters"  
+añadimos el subtítulo "Género de los personajes de starwars2"  
+**etiquetamos los ejes x e y como "x = "Height (cm)", y = "Weight (kg)", respectivamente**  
+
+
+::: columns 
+::: {.column width="50%"}
+```{r starwars2-7, fig.show = "hide", warning = FALSE}
+#| code-line-numbers: "8"
+ggplot(data = starwars2,
+       mapping = aes(x = height,
+                     y = mass,
+                     colour = gender)) +
+  geom_point() +
+  labs(title = "Mass vs. height of Starwars characters",
+       subtitle = "by gender",  
+       x = "Height (cm)", y = "Weight (kg)")
+```
+:::
+
+::: {.column width="50%"}
+```{r ref.label = "starwars2-7", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8}
+```
+:::
+:::
+
+---
+
+## Paso a paso: {.smaller}
+
+
+Empezamos con el data.frame `starwars2`  
+ponemos `height` en el eje-x  
+ponemos `mass` en el eje-y  
+representamos cada observación con un punto  
+y la variable `gender` para el color de cada punto.  
+Añadimos título al gráfico: "Mass vs. height of Starwars characters"  
+añadimos el subtítulo "Género de los personajes de starwars2"  
+etiquetamos los ejes x e y como "x = "Height (cm)", y = "Weight (kg)", respectivamente  
+**etiquetamos la leyenda "Species"**
+
+
+::: columns 
+::: {.column width="50%"}
+```{r starwars2-8, fig.show = "hide", warning = FALSE}
+#| code-line-numbers: "9"
+ggplot(data = starwars2,
+       mapping = aes(x = height,
+                     y = mass,
+                     colour = gender)) +
+  geom_point() +
+  labs(title = "Mass vs. height of Starwars characters",
+       subtitle = "by gender",  
+       x = "Height (cm)", y = "Weight (kg)",
+       colour = "Gender") 
+```
+:::
+
+::: {.column width="50%"}
+```{r ref.label = "starwars2-8", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8}
+```
+:::
+:::
+
+---
+
+## Paso a paso:  {.smaller}
+
+
+Empezamos con el data.frame `starwars2`  
+ponemos `height` en el eje-x  
+ponemos `mass` en el eje-y  
+representamos cada observación con un punto  
+y la variable `gender` para el color de cada punto.  
+Añadimos título al gráfico: "Mass vs. height of Starwars characters"  
+añadimos el subtítulo "Género de los personajes de starwars2"  
+etiquetamos los ejes x e y como "x = "Height (cm)", y = "Weight (kg)",   
+etiquetamos la leyenda "Gender"  
+**añadimos la fuente de los datos.**  
+
+
+::: columns 
+::: {.column width="50%"}
+```{r starwars2-9, fig.show = "hide", warning = FALSE}
+#| code-line-numbers: "10"
+ggplot(data = starwars2,
+       mapping = aes(x = height,
+                     y = mass,
+                     colour = gender)) +
+  geom_point() +
+  labs(title = "Mass vs. height of Starwars characters",
+       subtitle = "by gender",  
+       x = "Height (cm)", y = "Weight (kg)",
+       colour = "Gender",
+       caption = "Source: dplyr package") 
+```
+:::
+
+::: {.column width="50%"}
+```{r ref.label = "starwars2-9", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8}
+```
+:::
+:::
+
+---
+
+## Paso a paso: {.smaller}
+
+Empezamos con el data.frame `starwars2`  
+ponemos `height` en el eje-x  
+ponemos `mass` en el eje-y  
+representamos cada observación con un punto  
+y la variable `gender` para el color de cada punto.  
+Añadimos título al gráfico: "Mass vs. height of Starwars characters"  
+añadimos el subtítulo "Género de los personajes de starwars2"  
+etiquetamos los ejes x e y como "x = "Height (cm)", y = "Weight (kg)",   
+etiquetamos la leyenda "Gender"  
+añadimos la fuente de los datos.  
+**Finalmente, usamos paleta con una escala de colores discreta que está diseñada para ser percibida por espectadores con formas comunes de daltonismo.**  
+
+
+::: columns 
+::: {.column width="50%"}
+```{r starwars2-10, fig.show = "hide", warning = FALSE}
+#| code-line-numbers: "11"
+ggplot(data = starwars2,
+       mapping = aes(x = height,
+                     y = mass,
+                     colour = gender)) +
+  geom_point() +
+  labs(title = "Mass vs. height of Starwars characters",
+       subtitle = "by gender",  
+       x = "Height (cm)", y = "Weight (kg)",
+       colour = "Gender",
+       caption = "Source: dplyr package")  +
+  scale_colour_viridis_d()
+```
+:::
+
+::: {.column width="50%"}
+```{r ref.label = "starwars2-10", echo = FALSE, warning = FALSE, out.width = "100%", fig.width = 8}
+```
+:::
+:::
+
+
+# Aesthetics (estética) `r emo::ji("hit")`  {background-color="#017eae"}
+
+```{r aes-col, eval= FALSE }
+ggplot(data = starwars2,
+       mapping = aes(x = height,
+                     y = mass,
+                     colour = xxxxx,
+                     shape = xxxxx,
+                     size = xxxxx,
+                     alpha = xxxxx)
+       ) +
+  geom_point() 
+```
+
+
+# ¿Cuál es la mejor representación gráfica? `r emo::ji("hit")`  {background-color="#017eae"}
+
+# ¿Cómo son mis datos? `r emo::ji("thinking")`  
+
+# Un mundo de posibilidades `r emo::ji("thinking")` 
+
+>[[**From data to viz project**]{style="color:blue"}](https://www.data-to-viz.com/)
+
+![**Árbol de clasificación de gráficos según el tipo de datos**](img/03-visual-from-data-to-viz.png){width="60%"}
+
+
+# Recursos interesantes
+
+::: columns
+::: {.column width="33%"}
+
+![https://r-graph-gallery.com/boxplot.html](img/07-gallery.png){width="100%"}
+
+[**The R graph gallery**](https://r-graph-gallery.com/)
+:::
+
+::: {.column width="33%"}
+
+![https://r-charts.com/](img/07-rchart.png){width="100%"}
+
+[**R charts**](https://r-charts.com/)
+:::
+
+::: {.column width="33%"}
+
+![https://exts.ggplot2.tidyverse.org/gallery/](img/07-ggplot-ext.png){width="100%"}
+
+[**Extensiones \{ggplot2\}**](https://exts.ggplot2.tidyverse.org/gallery/)
+:::
+:::
+
+
+
+
+
+
+# ¿Qué hemos aprendido? `r emo::ji("book")` {background-color="#AB5484"}
+
+
+
++ Lo básico de **R**.
+
++ El entorno de RStudio.
+
++ Crear proyectos (Quarto o no): créate uno para cada análisis que hagas. 
+
++ Sintaxis Markdown y Quarto.
+
++ Hacer informes reproducibles.
+
++ El "estilo" de código.
+
++ Nociones básicas para manipular datos en **R**: `tidyverse`
+
+
+
+# Nuestra filosofía `r emo::ji("book")`: learning by doing {background-color="#AB5484"}
+
+
++ Recuerda que ni la IA ni los ordenadores actualmente no son inteligentes.
+
++ Filosofía: `copy, paste, and tweak`
+
++ La mejor forma de aprender código es haciéndolo.
+
++ La práctica es la clave
+
+
+<!-- # Homework: cumplimentar la hoja de trabajo {background-color="yellow"} -->
+
+# Referencias 
+
+
+
