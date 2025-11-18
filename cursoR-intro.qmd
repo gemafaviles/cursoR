@@ -604,170 +604,173 @@ Más información: <https://quarto.org>.
 ##  Quarto (resultado)
 ![Render](img/04-quarto-docs-rdo.png)
 
-## YAML en Quarto
-
-
-::: columns
-::: {.column width="50%"}
-![](img/04-yaml-quarto.png)
-:::
-
-::: {.column width="50%"}
-``` yaml
-title: "Mi informe en Quarto"
-subtitle: "Va a ser genial"
-author: "Gema Fernández-Avilés"
-date: "`r Sys.Date()`"
-format: 
-  html:
-   embed-resources: true
-   theme: cerulean
-   toc-title: Summary
-   toc: true
-   number-sections: true
-  pdf:
-    toc: true
-    number-sections: true
-    colorlinks: true
-```
-:::
-:::
 
 
 
+<!-- ## YAML en Quarto -->
 
 
+<!-- ::: columns -->
+<!-- ::: {.column width="50%"} -->
+<!-- ![](img/04-yaml-quarto.png) -->
+<!-- ::: -->
 
-## Texto en Quarto
-
-Sintaxis Markdown
-
-
-```{r sintaxis-texto, eval=FALSE}
-#| code-line-numbers: false
-
-Cabeceros
-----------
-# Títutlo
-## Subtítulo
-
-Listas
---------
-+ Desayuno
-+ Comida
-+ Cena
-```
-
-## Imágenes en Quarto
-
-``` tex
-![Marco alemán](img/marco.jpg)
-```
-
-![Marco alemán](img/marco.jpg)
-
-
-## Ecuaciones con LaTeX
-
-
-::: columns
-::: {.column width="40%"}
-``` tex
-\begin{gather*}
-a_1=b_1+c_1\\
-a_2=b_2+c_2-d_2+e_2
-\end{gather*}
-
-\begin{align}
-a_{11}& =b_{11}&
-  a_{12}& =b_{12}\\
-a_{21}& =b_{21}&
-  a_{22}& =b_{22}+c_{22}
-\end{align}
-```
-:::
-
-::: {.column width="60%"}
-```{=tex}
-\begin{gather*}
-a_1=b_1+c_1\\
-a_2=b_2+c_2-d_2+e_2
-\end{gather*}
-```
-```{=tex}
-\begin{align}
-a_{11}& =b_{11}&
-  a_{12}& =b_{12}\\
-a_{21}& =b_{21}&
-  a_{22}& =b_{22}+c_{22}
-\end{align}
-```
-:::
-:::
-
-::: footer
-Learn more: [LaTeX Equations](https://quarto.org/docs/authoring/markdown-basics.html#equations)
-:::
-
-## Opciones de chunks  {.smaller}
-
-``` {.r code-line-numbers="1|2|3|4|5|6|7|8|9|11|12|13"} 
-#| echo: true
-#| eval: false
-#| fig-width: 10
-#| fig-height: 4.5
-#| code-fold: true
-#| code-summary: código plot interactivo
-#| code-overflow: scroll
-#| code-line-numbers: true
-#| code-copy: true
-
-library(gapminder)
-library(ggplot2)
-library(plotly)
-
-g<-ggplot(data=gapminder,
-       aes(x=gdpPercap, y=lifeExp)) +
-       geom_point(aes(color=continent)) +
-       geom_smooth(method = "loess")
-
-ggplotly(g) 
-```
+<!-- ::: {.column width="50%"} -->
+<!-- ``` yaml -->
+<!-- title: "Mi informe en Quarto" -->
+<!-- subtitle: "Va a ser genial" -->
+<!-- author: "Gema Fernández-Avilés" -->
+<!-- date: "`r Sys.Date()`" -->
+<!-- format:  -->
+<!--   html: -->
+<!--    embed-resources: true -->
+<!--    theme: cerulean -->
+<!--    toc-title: Summary -->
+<!--    toc: true -->
+<!--    number-sections: true -->
+<!--   pdf: -->
+<!--     toc: true -->
+<!--     number-sections: true -->
+<!--     colorlinks: true -->
+<!-- ``` -->
+<!-- ::: -->
+<!-- ::: -->
 
 
 
 
 
 
-## Código ejecutable {.smaller}
+<!-- ## Texto en Quarto -->
 
-La @fig-gapminder representa....
+<!-- Sintaxis Markdown -->
 
-```{r opciones-codigo2}
-#| echo: true
-#| eval: true
-#| label: fig-gapminder
-#| fig-cap: Esperanza de vida y PIBpc.
-#| warning: false
-#| fig-width: 10
-#| fig-height: 4.5
-#| code-fold: true
-#| code-summary: código plot interactivo
-#| code-overflow: scroll
-#| code-line-numbers: true
-#| code-copy: true
 
-library(gapminder)
-library(ggplot2)
-library(plotly)
+<!-- ```{r sintaxis-texto, eval=FALSE} -->
+<!-- #| code-line-numbers: false -->
 
-g<-ggplot(data=gapminder,
-       aes(x=gdpPercap, y=lifeExp)) +
-       geom_point(aes(color=continent)) +
-       geom_smooth(method = "loess")
+<!-- Cabeceros -->
+<!-- ---------- -->
+<!-- # Títutlo -->
+<!-- ## Subtítulo -->
 
-ggplotly(g) 
-```
+<!-- Listas -->
+<!-- -------- -->
+<!-- + Desayuno -->
+<!-- + Comida -->
+<!-- + Cena -->
+<!-- ``` -->
+
+<!-- ## Imágenes en Quarto -->
+
+<!-- ``` tex -->
+<!-- ![Marco alemán](img/marco.jpg) -->
+<!-- ``` -->
+
+<!-- ![Marco alemán](img/marco.jpg) -->
+
+
+<!-- ## Ecuaciones con LaTeX -->
+
+
+<!-- ::: columns -->
+<!-- ::: {.column width="40%"} -->
+<!-- ``` tex -->
+<!-- \begin{gather*} -->
+<!-- a_1=b_1+c_1\\ -->
+<!-- a_2=b_2+c_2-d_2+e_2 -->
+<!-- \end{gather*} -->
+
+<!-- \begin{align} -->
+<!-- a_{11}& =b_{11}& -->
+<!--   a_{12}& =b_{12}\\ -->
+<!-- a_{21}& =b_{21}& -->
+<!--   a_{22}& =b_{22}+c_{22} -->
+<!-- \end{align} -->
+<!-- ``` -->
+<!-- ::: -->
+
+<!-- ::: {.column width="60%"} -->
+<!-- ```{=tex} -->
+<!-- \begin{gather*} -->
+<!-- a_1=b_1+c_1\\ -->
+<!-- a_2=b_2+c_2-d_2+e_2 -->
+<!-- \end{gather*} -->
+<!-- ``` -->
+<!-- ```{=tex} -->
+<!-- \begin{align} -->
+<!-- a_{11}& =b_{11}& -->
+<!--   a_{12}& =b_{12}\\ -->
+<!-- a_{21}& =b_{21}& -->
+<!--   a_{22}& =b_{22}+c_{22} -->
+<!-- \end{align} -->
+<!-- ``` -->
+<!-- ::: -->
+<!-- ::: -->
+
+<!-- ::: footer -->
+<!-- Learn more: [LaTeX Equations](https://quarto.org/docs/authoring/markdown-basics.html#equations) -->
+<!-- ::: -->
+
+<!-- ## Opciones de chunks  {.smaller} -->
+
+<!-- ``` {.r code-line-numbers="1|2|3|4|5|6|7|8|9|11|12|13"}  -->
+<!-- #| echo: true -->
+<!-- #| eval: false -->
+<!-- #| fig-width: 10 -->
+<!-- #| fig-height: 4.5 -->
+<!-- #| code-fold: true -->
+<!-- #| code-summary: código plot interactivo -->
+<!-- #| code-overflow: scroll -->
+<!-- #| code-line-numbers: true -->
+<!-- #| code-copy: true -->
+
+<!-- library(gapminder) -->
+<!-- library(ggplot2) -->
+<!-- library(plotly) -->
+
+<!-- g<-ggplot(data=gapminder, -->
+<!--        aes(x=gdpPercap, y=lifeExp)) + -->
+<!--        geom_point(aes(color=continent)) + -->
+<!--        geom_smooth(method = "loess") -->
+
+<!-- ggplotly(g)  -->
+<!-- ``` -->
+
+
+
+
+
+
+<!-- ## Código ejecutable {.smaller} -->
+
+<!-- La @fig-gapminder representa.... -->
+
+<!-- ```{r opciones-codigo2} -->
+<!-- #| echo: true -->
+<!-- #| eval: true -->
+<!-- #| label: fig-gapminder -->
+<!-- #| fig-cap: Esperanza de vida y PIBpc. -->
+<!-- #| warning: false -->
+<!-- #| fig-width: 10 -->
+<!-- #| fig-height: 4.5 -->
+<!-- #| code-fold: true -->
+<!-- #| code-summary: código plot interactivo -->
+<!-- #| code-overflow: scroll -->
+<!-- #| code-line-numbers: true -->
+<!-- #| code-copy: true -->
+
+<!-- library(gapminder) -->
+<!-- library(ggplot2) -->
+<!-- library(plotly) -->
+
+<!-- g<-ggplot(data=gapminder, -->
+<!--        aes(x=gdpPercap, y=lifeExp)) + -->
+<!--        geom_point(aes(color=continent)) + -->
+<!--        geom_smooth(method = "loess") -->
+
+<!-- ggplotly(g)  -->
+<!-- ``` -->
 
 
 
@@ -812,40 +815,34 @@ B. `Me encanta la cuidad de Sevilla`
 La guía completa se encuentra en: [The tidyverse style guide](https://style.tidyverse.org/)
 
 
-## Nombre de ficheros
+#### Nombre de ficheros
 
 ```{r estilo-cod-ficheros, eval=FALSE}
-#| code-line-numbers: false
-#| 
-# Good
+#| code-line-numbers: true
 fit_models.R
 utility_functions.R
-00_download.R
-01_explore.R
 
-# Bad
 fit models.R           # espacios
 fitmodels.r            # todo junto y r   
 utility.Functions.R    # otros estilos anteriores
 ```
 
 
-## Sintaxis
+#### Sintaxis
 
->`snake_case`: para nombres de objetos y funciones debe usarse minúscula, números y _ guión bajo para separar palabras dentro del nombre.
++ `snake_case`: para nombres de objetos y funciones debe usarse minúscula, números y _ guión bajo para separar palabras dentro del nombre.
 
 
-```{r estilo-cod-objetos, eval=FALSE}
-#| code-line-numbers: false
+<!-- ```{r estilo-cod-objetos, eval=FALSE} -->
+<!-- #| code-line-numbers: false -->
+<!-- # Good -->
+<!-- day_one -->
+<!-- day_1 -->
 
-# Good
-day_one
-day_1
-
-# Bad
-DayOne
-dayone
-```
+<!-- # Bad -->
+<!-- DayOne -->
+<!-- dayone -->
+<!-- ``` -->
 
 
 
@@ -1118,7 +1115,7 @@ para poder manipular y represenar los datos.
 
 - Cada fila es una **observación**
 - Cada columna es una **variable**
-
+- La forma más común de las tablas de datos: **data.frame**
 ```{r carga-datos-starwars}
 library("dplyr")
 starwars
@@ -1127,17 +1124,17 @@ starwars
 
 
 
-## Tablas de datos (data.frames)
+<!-- ## Tablas de datos (data.frames) -->
 
-+ Cada columna: variable (cuantitativa o cualitativa).
+<!-- + Cada columna: variable (cuantitativa o cualitativa). -->
 
-+ Cada fila:  elemento  observado las características que representan las variables. 
+<!-- + Cada fila:  elemento  observado las características que representan las variables.  -->
 
-+ La forma más común: `data.frame`. 
-      
-+ Para extraer una variable del `data.frame` se utiliza el operador `$`: `nombre_dataframe$nombre_variable`.
+<!-- + La forma más común: `data.frame`.  -->
 
-+ Cada columna del `data.frame` es un `vector` (otra estructura de datos). 
+<!-- + Para extraer una variable del `data.frame` se utiliza el operador `$`: `nombre_dataframe$nombre_variable`. -->
+
+<!-- + Cada columna del `data.frame` es un `vector` (otra estructura de datos).  -->
 
 
 
@@ -1161,8 +1158,8 @@ dim(starwars)
 
 ## Tablas de datos (`data.frames`)
 
+¿Cómo son las primeras observaciones del dataset?
 ```{r sw-head}
-# la función head() muestra los primeros valores
 head(starwars, 3)
 ```
 
@@ -1177,11 +1174,6 @@ El operador `<-` asigna al "símbolo" que hay a su izquierda el resultado
 de la expresión que hay a su derecha. El operador `=` funciona igual que `<-`. 
 :::
 
-## Una observación (el bueno): **Luke Skywalker**
-
-![**Fuente: https://datasciencebox.org**](img/05-luke-skywalker.png){width="50%"}
-
-
 
 ## Exploración del dataset `starwars`  
 
@@ -1191,6 +1183,10 @@ De un **vistazo** (con la función `glimpse()`):
 skimr::skim(starwars)
 ```
 
+
+## Una observación (el bueno): **Luke Skywalker**
+
+![**Fuente: https://datasciencebox.org**](img/05-luke-skywalker.png){width="50%"}
 
 
 ## ¿Qué conozco sobre Luke Skywalker (el bueno)?
@@ -1205,7 +1201,7 @@ starwars|>
 
 
 
-# PARTE IV. 📊 Representaciones con \{`ggplot2`\} {background-color="black"}
+# PARTE IV. 📊 Gráficos con \{`ggplot2`\} {background-color="black"}
 
 
 
@@ -1317,11 +1313,15 @@ ggplot(data = starwars, mapping = aes(x = height, y = mass)) +
 + Inspirado en el libro *Grammar of Graphics*, @wilkinson2012grammar.
 
 
-## ¿Cómo visualizar con la función `ggplot()` de \{`ggplot`\}?
+## ¿Cómo visualizar con la función `ggplot()` de \{`ggplot2`\}?
+
++ Cargamos la librería `ggplot2()`
 
 ```{r ggplot-library, eval=FALSE}
 library(ggplot2)
 ```
+
++ Utilizamos la función `ggplot()`
 
 ```{r ggplot-teoria, eval=FALSE}
 ggplot(data = [dataset], 
@@ -1331,8 +1331,12 @@ ggplot(data = [dataset],
 ```
 
 
-## Mi primer plot con `ggplot()` 
+>Ayuda con ggplot2: [ggplot2.tidyverse.org](ggplot2.tidyverse.org) y Cheatsheets.
 
+
+
+
+## Mi primer plot con `ggplot()` 
 
 ```{r ggplot-pract0, eval=FALSE}
 #| warning: false
@@ -1350,7 +1354,7 @@ ggplot(data = starwars2, mapping = aes(x = height, y = mass)) +
        x = "Height (cm)", y = "Weight (kg)")
 ```
 
->Ayuda con ggplot2: [ggplot2.tidyverse.org](ggplot2.tidyverse.org) y Cheatsheets.
+
 
 
 
@@ -1780,7 +1784,7 @@ ggplot(data = starwars2,
 
 
 
-# ¿Qué hemos aprendido? `r emo::ji("book")` {background-color="#AB5484"}
+# ¿Qué hemos aprendido? `r emo::ji("book")` {background-color="#017eae"}
 
 
 
@@ -1798,7 +1802,7 @@ ggplot(data = starwars2,
 
 + Nociones básicas para manipular datos en **R**: `tidyverse`
 
-
++ Visualización de datos con \{`ggplot2`\}.
 
 # Nuestra filosofía `r emo::ji("book")`: learning by doing {background-color="#AB5484"}
 
